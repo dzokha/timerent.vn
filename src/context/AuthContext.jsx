@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '../utils/supabaseClient';
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { supabase } from '../utils/supabaseClient'; // Đảm bảo đường dẫn này đúng với cấu trúc của bạn
 
 const AuthContext = createContext({});
 
@@ -15,7 +14,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    // 2. Lắng nghe các sự kiện thay đổi trạng thái (Đăng nhập, đăng xuất, đổi pass...)
+    // 2. Lắng nghe các sự kiện thay đổi trạng thái (Đăng nhập, đăng xuất...)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
@@ -30,7 +29,6 @@ export const AuthProvider = ({ children }) => {
       email,
       password,
       options: {
-        // Dữ liệu này sẽ được trigger Postgres ở bài trước bắt lấy để lưu vào bảng profiles
         data: { full_name: fullName } 
       }
     });
